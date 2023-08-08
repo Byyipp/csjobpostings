@@ -1,2 +1,2 @@
-# csjobpostings.github.io
+# csjobpostings
 Find recent cs job postings
