@@ -1,0 +1,101 @@
+/* Basic Dark Theme */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #FFFFFF;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #1F1F1F;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Title */
+.title {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Job Grid */
+.job-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 20px;
+    max-width: 1300px; /* Adjust based on the total width of 4 job cards */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.job-card {
+    position: relative; 
+    background-color: #1F1F1F;
+    width: 280px; /* Increased width */
+    padding: 20px; /* Increased padding */
+    margin: 15px; /* Increased margin for better spacing */
+    border-radius: 10px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.job-type {
+    position: absolute;
+    top: 15px; /* Adjusted positioning */
+    right: 15px; /* Adjusted positioning */
+    font-size: 0.9em; /* Increased font size */
+    padding: 7px 14px; /* Increased padding */
+    border-radius: 20px; /* Adjusted for the increased size */
+    z-index: 1;
+}
+
+/* Coloring based on job type */
+.job-type.full-time {
+    background-color: #4CAF50;
+    color: #FFFFFF;
+}
+
+.job-type.intern {
+    background-color: #FF9800;
+    color: #FFFFFF;
+}
+
+
+.job-logo {
+    display: block; /* Makes the image a block element so it starts on a new line */
+    width: 50px;
+    height: 50px;
+    margin: 35px auto 15px; /* Top margin to create space between the logo and job-type */
+}
+
+
+
+.job-title, .job-company, .job-location {
+    margin: 8px 0; /* Increased spacing */
+    font-size: 1.1em; /* Increased font size */
+}
+
+.apply-button {
+    margin-top: 20px; /* Increased spacing */
+    padding: 12px 18px; /* Increased padding for a larger button */
+    font-size: 1em; /* Adjusted font size for the button */
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px; /* Added padding for the apply button */
+    display: block;
+    text-align: center;
+    text-decoration: none; /* Remove underline from the link */
+}
+
+.apply-button:hover {
+    background-color: #45a049;
+}
