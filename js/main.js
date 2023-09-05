@@ -8,14 +8,19 @@ window.onload = function() {
 function getJobs() {
     fetch(API_ENDPOINT, {
         method: 'GET',
-
+        mode: 'no-cors'
     })
-    .then(response => response.json())
     .then(data => {
-        console.log(data);
-        // Process the response from Lambda function
+        console.log("Parsed Lambda Response:", data);  // Log the initial response
+    
+        // Now, let's attempt to parse the body
+        const actualData = JSON.parse(data.body);
+        console.log("Parsed Body Data:", actualData);
+    
+        // Further processing of actualData if needed...
     })
     .catch(error => {
         console.error("There was an error calling the Lambda function", error);
     });
+    
 }
