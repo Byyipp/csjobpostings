@@ -503,7 +503,7 @@
   display: block;
 }
 
-.second-idea {
+.job-section {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -929,7 +929,7 @@
     margin-right: auto;
   }
 
-  .second-idea {
+  .job-section {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
@@ -1044,17 +1044,6 @@
   .salary-header, .time-posted, .posted-date {
     font-size: 10px;
   }
-}
-
-#w-node-_0a1d1d83-d091-9b2b-956d-594bb825b56e-10826111 {
-  grid-area: span 1 / span 1 / span 1 / span 1;
-  justify-self: auto;
-}
-
-#w-node-_312d2dd2-0cfe-a373-aa1c-35e7283a6ac2-10826111, #w-node-_4b2dff27-08db-fa8a-4ab2-f39f711c94a9-10826111, #w-node-_112b91e9-4e7b-5b15-8f45-475f0236fe6d-10826111 {
-  grid-area: span 1 / span 1 / span 1 / span 1;
-  align-self: stretch;
-  justify-self: auto;
 }
 
 @media screen and (max-width: 767px) {
