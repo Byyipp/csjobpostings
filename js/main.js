@@ -1,5 +1,5 @@
 const API_ENDPOINT = "https://k0v0rx1twg.execute-api.us-east-1.amazonaws.com/getjobs"; 
-
+const IMAGE_ENDPOINT = "https://k0v0rx1twg.execute-api.us-east-1.amazonaws.com/getimage"
 
 window.onload = function() {
     getJobs().then(jobDataMap => {
@@ -15,20 +15,33 @@ function getJobs() {
     })
     .then(response => response.json())
     .then(data => {
-        // console.log("Parsed Lambda Response:", data);
-
         const jobData = JSON.parse(data.body);
-        const jobDataMap = jobData.results.map(job => ({
-            company_image: null,
-            title: job.title,
-            company_display_name: job.company.display_name,
-            location_display_name: job.location.display_name.slice(0, job.location.display_name.indexOf(",")),
-            location_area: job.location.area.slice(0, 2).reverse().join(', '),
-            salary_min: job.salary_min,
-            company_created: job.created,
-            redirect_url: job.redirect_url
-        }));
 
+        // Fetch images for each job and return a promise for each job's data.
+        const promises = jobData.results.map(job => 
+            fetch(IMAGE_ENDPOINT + `?company=${job.company.display_name}`, { // Replace with your actual image API endpoint
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(imageResponse => imageResponse.json())
+            .then(imageData => ({
+                company_image: imageData.body,  // Extract the image URL from the body attribute
+                title: job.title,
+                company_display_name: job.company.display_name,
+                location_display_name: job.location.display_name.slice(0, job.location.display_name.indexOf(",")),
+                location_area: job.location.area.slice(0, 2).reverse().join(', '),
+                salary_min: job.salary_min,
+                company_created: job.created,
+                redirect_url: job.redirect_url
+            }))
+        );
+
+        // Wait for all image requests to complete and return the final job data.
+        return Promise.all(promises);
+    })
+    .then(jobDataMap => {
         console.log(jobDataMap);
         return jobDataMap;
     })
@@ -37,6 +50,8 @@ function getJobs() {
         return null;
     });
 }
+
+
 
 
 function updateJobPostings(jobDataMap) {
