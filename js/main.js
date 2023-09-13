@@ -9,6 +9,23 @@ window.onload = function() {
     });
 };
 
+document.getElementById('zipcodeForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevents the form from submitting the traditional way
+
+    const zipcode = document.getElementById('Zipcode').value;
+    const distance = document.getElementById('distance').value;
+
+    if (zipcode && distance !== "0") {
+        getJobsDistance(zipcode, distance).then(jobDataMap => {
+            if (jobDataMap) {
+                updateJobPostings(jobDataMap);
+            }
+        });
+    } else {
+        alert('Please select a distance with Zipcode.');
+    }
+});
+
 function getJobs() {
     return fetch(API_ENDPOINT, {
         method: 'GET',
@@ -19,7 +36,7 @@ function getJobs() {
 
         // Fetch images for each job and return a promise for each job's data.
         const promises = jobData.results.map(job => 
-            fetch(IMAGE_ENDPOINT + `?company=${job.company.display_name}`, { // Replace with your actual image API endpoint
+            fetch(IMAGE_ENDPOINT + `?company=${job.company.display_name}`, { 
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -51,8 +68,49 @@ function getJobs() {
     });
 }
 
+function getJobsDistance(zipcode, distance) {
+    km = distance * 1.609344;
 
+    return fetch(API_ENDPOINT + `?where=${zipcode}&distance=${km}`, {
+        method: 'GET', 
+    })
+    .then(response => response.json())
+    .then(data => {
+        const jobData = JSON.parse(data.body);
 
+        // Fetch images for each job and return a promise for each job's data.
+        const promises = jobData.results.map(job => 
+            fetch(IMAGE_ENDPOINT + `?company=${job.company.display_name}`, { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(imageResponse => imageResponse.json())
+            .then(imageData => ({
+                company_image: imageData.body,  // Extract the image URL from the body attribute
+                title: job.title,
+                company_display_name: job.company.display_name,
+                location_display_name: job.location.display_name.slice(0, job.location.display_name.indexOf(",")),
+                location_area: job.location.area.slice(0, 2).reverse().join(', '),
+                salary_min: job.salary_min,
+                company_created: job.created,
+                redirect_url: job.redirect_url
+            }))
+        );
+
+        // Wait for all image requests to complete and return the final job data.
+        return Promise.all(promises);
+    })
+    .then(jobDataMap => {
+        console.log(jobDataMap);
+        return jobDataMap;
+    })
+    .catch(error => {
+        console.error("There was an error calling the Lambda function", error);
+        return null;
+    });
+}
 
 
 function updateJobPostings(jobDataMap) {
