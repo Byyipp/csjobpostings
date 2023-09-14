@@ -10,7 +10,7 @@ window.onload = function() {
 };
 
 document.getElementById('zipcodeForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevents the form from submitting the traditional way
+    event.preventDefault(); 
 
     const zipcode = document.getElementById('Zipcode').value;
     const distance = document.getElementById('distance').value;
@@ -27,6 +27,8 @@ document.getElementById('zipcodeForm').addEventListener('submit', function(event
 });
 
 function getJobs() {
+    document.querySelector('.loader-container').style.display = 'flex';
+
     return fetch(API_ENDPOINT, {
         method: 'GET',
     })
@@ -69,6 +71,7 @@ function getJobs() {
 }
 
 function getJobsDistance(zipcode, distance) {
+    document.querySelector('.loader-container').style.display = 'flex';
     km = distance * 1.609344;
 
     return fetch(API_ENDPOINT + `?where=${zipcode}&distance=${km}`, {
@@ -245,6 +248,8 @@ function updateJobPostings(jobDataMap) {
 
         // Append the job card to the container
         jobContainer.appendChild(jobCard);
+        document.querySelector('.loader-container').style.display = 'none';
+
     });
 }
 
