@@ -61,7 +61,7 @@ function getJobs() {
         return Promise.all(promises);
     })
     .then(jobDataMap => {
-        console.log(jobDataMap);
+        // console.log(jobDataMap);
         return jobDataMap;
     })
     .catch(error => {
@@ -106,7 +106,7 @@ function getJobsDistance(zipcode, distance) {
         return Promise.all(promises);
     })
     .then(jobDataMap => {
-        console.log(jobDataMap);
+        // console.log(jobDataMap);
         return jobDataMap;
     })
     .catch(error => {
